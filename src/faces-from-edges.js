@@ -24,15 +24,24 @@ function joinEdges(edges) {
 }
 
 function connectChains(chains) {
-    chains.forEach(function(chainA, i) {
-        chains.forEach(function(chainB, j) {
+    var len = chains.length;
+    for (var i = 0; i < len; i++) {
+        var chainA = chains[i];
+        if ( ! chainA) {
+            continue;
+        }
+        for (var j = 0; j < len; j++) {
+            var chainB = chains[j];
+            if ( ! chainB) {
+                continue;
+            }
             var merged = mergeChains(chainA, chainB);
             if (merged) {
                 delete chains[j];
                 return true;
             }
-        });
-    });
+        }
+    }
     return false;
 }
 
@@ -83,6 +92,9 @@ function reverseChain(chain) {
 }
 
 function validFace(chain) {
+    if (chain.length < 3) {
+        return 0;
+    }
     return chainStart(chain) === chainEnd(chain) ? 1 : 0;
 }
 
